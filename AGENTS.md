@@ -16,7 +16,7 @@ Une liste de matériel partagée (image + prix + lien Amazon), filtrable par sta
 ## Stack
 
 - **Next.js (App Router) + TypeScript + Tailwind 4**, déployé sur **Vercel**
-- **Neon Postgres** (projet `square-art-14364567`, branche `main`, région us-west-2) + **Drizzle** (`src/db/`)
+- **Supabase Postgres** + **Drizzle** (`src/db/`). MCP Supabase et Vercel configurés dans `.mcp.json`.
 - Auth : **mot de passe d'équipe unique** (`SITE_PASSWORD`, cookie posé par le middleware). Pas de comptes.
 - Mutations : Server Actions. Pas d'API séparée, pas de sur-architecture.
 - Env : `.env.local` (jamais commité), variables listées dans `.env.example`.
@@ -47,14 +47,13 @@ Schéma déjà appliqué en base. Toute évolution : modifier `schema.ts` puis `
 pnpm dev                # dev local (port 3000)
 pnpm build              # build prod
 pnpm lint               # eslint
-pnpm drizzle-kit push   # applique schema.ts sur Neon
+pnpm drizzle-kit push   # applique schema.ts sur Supabase
 ```
 
 ## Skills
 
 - `/ship` : valide (lint + build) puis déploie sur Vercel et vérifie l'URL.
-- `/brief` : génère un `BRIEF.md` de salve pour un worker Orca (worktree isolé).
 
-## Mode salve (Orca)
+## Organisation du travail
 
-Si tu es un worker dans un worktree : ton brief est dans `.claude/BRIEF.md` à la racine du worktree. Exécute-le en autonomie, décide seul les doutes mineurs, note-les. Le plan produit et la découpe des salves vivent dans `docs/PLAN.md`.
+Pas de mode salve ni de workers Orca sur ce projet : le travail se fait directement en session, étape par étape. Le plan produit et l'avancement vivent dans `docs/PLAN.md`.

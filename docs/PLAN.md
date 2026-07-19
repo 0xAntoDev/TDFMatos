@@ -4,42 +4,40 @@
 
 Un inventaire visuel partagé pour préparer le tour de France en live IRL : on liste le matériel avec image, prix et lien d'achat, on suit les statuts (à acheter / acheté / à prendre / pris), et on l'utilise sur mobile comme checklist les jours de tournage. Outil interne, ~5 personnes, mot de passe d'équipe unique.
 
-## Déjà en place (fondations, ne pas refaire)
+## Fait
 
-- Scaffold Next.js App Router + TS + Tailwind 4 (pnpm)
-- Neon Postgres provisionné, table `items` créée avec index (projet `square-art-14364567`)
-- Drizzle configuré : `src/db/schema.ts` (source de vérité), `src/db/index.ts`, `drizzle.config.ts`
-- `.env.local` : `DATABASE_URL` + `SITE_PASSWORD`
+### Étape A — Socle : auth, layout, CRUD (19/07/2026)
 
-## Découpe en salves
+- Middleware mot de passe (`src/proxy.ts`) : page `/login`, cookie httpOnly signé, redirect. `SITE_PASSWORD` en env.
+- Layout mobile-first : header « Matos TDF », nav basse 3 onglets, route group `(app)`.
+- Server Actions CRUD sur `items` + revérification du cookie dans chaque action.
+- Formulaire d'ajout/édition : tous les champs, selects catégorie/statut, prix en euros converti en centimes.
+- Pré-remplissage par lien Amazon (og:title / og:image / prix, fallbacks Amazon), best effort jamais bloquant.
+- Vue liste `/` : cartes, badge statut cliquable pour changer le statut, filtres catégorie + statut, état vide.
 
-### Salve A — Socle : auth, layout, CRUD (À FAIRE EN PREMIER, bloque B et C)
+## À faire
 
-- Middleware mot de passe : page `/login` (un champ, gros bouton), cookie httpOnly signé, redirect. `SITE_PASSWORD` en env.
-- Layout mobile-first : barre de navigation basse 3 onglets (Liste, Shopping, Checklist), header simple « Matos TDF ».
-- Server Actions CRUD sur `items` : créer, modifier, changer le statut, supprimer.
-- Formulaire d'ajout/édition (bottom sheet ou page) : tous les champs du schéma, catégorie et statut en selects, prix saisi en euros converti en centimes.
-- **Fetch lien Amazon** : action serveur qui prend une URL, fetch la page (User-Agent navigateur), extrait `og:title`, `og:image` et le prix si trouvable ; pré-remplit le formulaire. Best effort : si ça échoue, on remplit à la main, jamais bloquant.
-- Vue liste `/` minimale : cartes (vignette, titre, prix, badge statut, quantité), filtres catégorie + statut.
-- Zone : tout `src/`, c'est la salve fondatrice.
+### Migration Supabase (avant B et C)
 
-### Salve B — Mode shopping (après A)
+- Créer le projet Supabase, récupérer la connection string (pooler), remplacer `DATABASE_URL`.
+- Remplacer le driver `@neondatabase/serverless` par un driver Postgres standard dans `src/db/index.ts`.
+- `pnpm drizzle-kit push` pour recréer la table `items` (la base Neon était vide, rien à migrer).
+
+### Étape B — Mode shopping
 
 - `/shopping` : uniquement statut `a_acheter`, grosses vignettes, prix visible, total du panier restant, bouton « Acheter » qui ouvre le lien dans un nouvel onglet.
 - Après achat : bouton « Marqué acheté » qui passe le statut à `achete`.
-- Zone : `src/app/shopping/`, composants partagés en lecture seule.
 
-### Salve C — Mode checklist tournage (après A)
+### Étape C — Mode checklist tournage
 
 - `/checklist` : items `a_prendre` + `pris` + `achete` (tout ce qui doit monter dans le van), groupés par catégorie, gros toggles tactiles « pris ✓ », compteur « il reste N ».
 - Bouton « Réinitialiser la checklist » (repasse tous les `pris` en `a_prendre`) pour le tournage suivant. Confirmation avant.
 - `manifest.json` + icônes : installable sur l'écran d'accueil.
-- Zone : `src/app/checklist/`, `src/app/manifest.ts`, composants partagés en lecture seule.
 
 ### Ensuite (v1.1, à trancher plus tard)
 
 - Filtre « qui apporte quoi » par personne
-- Upload d'image direct (Vercel Blob) pour le matos déjà possédé sans lien
+- Upload d'image direct pour le matos déjà possédé sans lien
 - Temps réel (polling léger suffit sans doute)
 
 ## Définition de fait
