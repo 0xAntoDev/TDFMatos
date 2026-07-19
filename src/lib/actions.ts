@@ -13,6 +13,7 @@ import {
   type NewItem,
   type Status,
 } from "@/db/schema";
+import { resolveShortLink } from "@/lib/affiliate";
 import { scrapeProductPage, type ScrapedProduct } from "@/lib/amazon";
 import { AUTH_COOKIE, isValidAuthToken } from "@/lib/auth";
 import { parseEurosToCents } from "@/lib/format";
@@ -63,16 +64,20 @@ function itemValuesFromForm(formData: FormData): Omit<NewItem, "id"> {
 
 export async function createItem(formData: FormData) {
   await requireAuth();
-  await db.insert(items).values(itemValuesFromForm(formData));
+  const values = itemValuesFromForm(formData);
+  if (values.link) values.link = await resolveShortLink(values.link);
+  await db.insert(items).values(values);
   revalidatePath("/");
   redirect("/");
 }
 
 export async function updateItem(id: string, formData: FormData) {
   await requireAuth();
+  const values = itemValuesFromForm(formData);
+  if (values.link) values.link = await resolveShortLink(values.link);
   await db
     .update(items)
-    .set({ ...itemValuesFromForm(formData), updatedAt: new Date() })
+    .set({ ...values, updatedAt: new Date() })
     .where(eq(items.id, id));
   revalidatePath("/");
   redirect("/");
