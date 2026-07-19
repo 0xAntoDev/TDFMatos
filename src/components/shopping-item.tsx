@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { CATEGORY_LABELS, type Category, type Item } from "@/db/schema";
 import { formatPrice } from "@/lib/format";
 import { updateItemStatus } from "@/lib/actions";
+import { withAffiliateTag } from "@/lib/affiliate";
 
 export function ShoppingItem({ item }: { item: Item }) {
   const router = useRouter();
@@ -59,7 +60,7 @@ export function ShoppingItem({ item }: { item: Item }) {
         <div className="mt-2 flex gap-2">
           {item.link ? (
             <a
-              href={item.link}
+              href={withAffiliateTag(item.link)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-11 flex-1 items-center justify-center rounded-full bg-neutral-900 px-4 text-sm font-semibold text-white dark:bg-white dark:text-neutral-900"
