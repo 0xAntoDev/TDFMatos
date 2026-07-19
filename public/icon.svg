@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="96" fill="#171717"/>
+  <!-- van : le matos monte dans le van -->
+  <g fill="none" stroke="#ffffff" stroke-width="22" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M96 168 h200 v176 H96 z"/>
+    <path d="M296 216 h72 l48 56 v72 h-120 z"/>
+    <line x1="96" y1="344" x2="416" y2="344"/>
+  </g>
+  <g fill="#171717" stroke="#ffffff" stroke-width="20">
+    <circle cx="180" cy="356" r="34"/>
+    <circle cx="356" cy="356" r="34"/>
+  </g>
+  <!-- coche : chargé -->
+  <path d="M150 250 l30 30 l58 -66" fill="none" stroke="#34d399" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
