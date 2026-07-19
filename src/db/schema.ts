@@ -20,6 +20,18 @@ export const CATEGORIES = [
   "transport",
   "divers",
 ] as const;
+export type Category = (typeof CATEGORIES)[number];
+
+export const CATEGORY_LABELS: Record<Category, string> = {
+  video: "Vidéo",
+  audio: "Audio",
+  eclairage: "Éclairage",
+  energie: "Énergie",
+  cables: "Câbles",
+  reseau: "Réseau",
+  transport: "Transport",
+  divers: "Divers",
+};
 
 export const items = pgTable("items", {
   id: uuid("id").primaryKey().defaultRandom(),
