@@ -1,0 +1,9 @@
+# orca.yaml — config Orca du repo tdf-matos.
+# `scripts.setup` tourne à la création d'un worktree par Orca (cwd = racine du worktree) :
+# install des deps, copie de .env.local depuis le checkout principal, port dev dédié.
+# NB : si Orca est réglé en commandSourcePolicy local-only, ce setup n'est pas exécuté
+# automatiquement — le superviseur le lance alors lui-même dans un terminal Orca
+# (voir .claude/SUPERVISOR.md).
+scripts:
+  setup: |
+    bash scripts/orca-wt-setup.sh prepare
