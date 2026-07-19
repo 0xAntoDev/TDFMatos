@@ -23,20 +23,13 @@ Un inventaire visuel partagé pour préparer le tour de France en live IRL : on 
 - Vue liste `/` minimale : cartes (vignette, titre, prix, badge statut, quantité), filtres catégorie + statut.
 - Zone : tout `src/`, c'est la salve fondatrice.
 
-### Salve infra — Migration Supabase (avant ou en parallèle de B et C)
-
-- Créer le projet Supabase, récupérer la connection string (pooler), remplacer `DATABASE_URL`.
-- Remplacer `@neondatabase/serverless` par un driver Postgres standard dans `src/db/index.ts`.
-- `pnpm drizzle-kit push` pour recréer la table `items` (base vide, rien à migrer).
-- Zone : `src/db/`, `package.json`, `.env.example`.
-
-### Salve B — Mode shopping (après A)
+### Salve B — Mode shopping ✅ FAITE (19/07/2026, worker Orca)
 
 - `/shopping` : uniquement statut `a_acheter`, grosses vignettes, prix visible, total du panier restant, bouton « Acheter » qui ouvre le lien dans un nouvel onglet.
 - Après achat : bouton « Marqué acheté » qui passe le statut à `achete`.
 - Zone : `src/app/shopping/`, composants partagés en lecture seule.
 
-### Salve C — Mode checklist tournage (après A)
+### Salve C — Mode checklist tournage ✅ FAITE (19/07/2026, worker Orca)
 
 - `/checklist` : items `a_prendre` + `pris` + `achete` (tout ce qui doit monter dans le van), groupés par catégorie, gros toggles tactiles « pris ✓ », compteur « il reste N ».
 - Bouton « Réinitialiser la checklist » (repasse tous les `pris` en `a_prendre`) pour le tournage suivant. Confirmation avant.

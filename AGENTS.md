@@ -16,7 +16,7 @@ Une liste de matériel partagée (image + prix + lien Amazon), filtrable par sta
 ## Stack
 
 - **Next.js (App Router) + TypeScript + Tailwind 4**, déployé sur **Vercel**
-- **Supabase Postgres** + **Drizzle** (`src/db/`). MCP Supabase et Vercel configurés dans `.mcp.json`. (Migration depuis Neon en cours : tant que `DATABASE_URL` pointe sur Neon, la base actuelle reste valable.)
+- **Neon Postgres** (projet `square-art-14364567`, branche `main`, région us-west-2) + **Drizzle** (`src/db/`). Décision du 19/07/2026 : on RESTE sur Neon (limite de projets gratuits atteinte côté Supabase). MCP Vercel dans `.mcp.json`.
 - Auth : **mot de passe d'équipe unique** (`SITE_PASSWORD`, cookie posé par le middleware). Pas de comptes.
 - Mutations : Server Actions. Pas d'API séparée, pas de sur-architecture.
 - Env : `.env.local` (jamais commité), variables listées dans `.env.example`.
